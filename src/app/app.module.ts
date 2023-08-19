@@ -10,12 +10,16 @@ import { NavbarComponent } from './navbar/navbar.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { HttpClientModule } from '@angular/common/http';
+import { HeatmapLayerComponent } from './heatmap-layer/heatmap-layer.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
-    NavbarComponent
+    NavbarComponent,
+    HeatmapLayerComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +27,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     BrowserAnimationsModule,
     MatToolbarModule, 
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

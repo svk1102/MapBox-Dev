@@ -1,6 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import { DataService } from '../services/data.service';
 
 
 @Component({
@@ -15,6 +16,8 @@ export class MapComponent implements OnInit{
   popup1 = new mapboxgl.Popup({offset:25}).setText('Built in 1992');
 
   map!:mapboxgl.Map;
+
+  constructor(private data:DataService){}
 
   loadMap(){
     (mapboxgl as typeof mapboxgl).accessToken = 'pk.eyJ1Ijoic2hyaXBhZGt1bGthcm5pIiwiYSI6ImNsbGFwMnp0dTF0azMzZmxvOWo4ZTZ4c2kifQ.CypBxgcMJ3Kw5Y473fn35w';
@@ -109,6 +112,18 @@ export class MapComponent implements OnInit{
     .setLngLat([72.833143,19.006386])
     .setPopup(this?.popup1)
     .addTo(this?.map);
+
+    this.data.getData().subscribe(res => {
+      res.data.forEach((d:any) => {
+        new mapboxgl.Marker({
+          color:'#90fa7a',
+          scale:0.5
+        })
+        .setLngLat([d.longitude,d.latitude])
+        .setPopup(new mapboxgl.Popup({offset:25}).setHTML(`<div>Place : ${d.name} </div> <div> Infected : ${d.infected}</div> <div> Recovered : ${d.recovered}</div>`))
+        .addTo(this.map);
+      })
+    })
   }
 
   gotoOffice(){
@@ -139,5 +154,9 @@ export class MapComponent implements OnInit{
 
   ngOnInit(): void {
     this.loadMap();
+    this.data.getData().subscribe(res => {
+      console.log(res)
+      
+    })
   }
 }
